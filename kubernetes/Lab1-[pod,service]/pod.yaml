@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bunny-pod
+  labels:
+    app: bunny-app
+spec:
+  containers:
+    - name: bunny-container
+      image: rajv4rdhan/labops-bunny
+      ports:
+        - containerPort: 8080
