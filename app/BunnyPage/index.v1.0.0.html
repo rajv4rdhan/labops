@@ -9,13 +9,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@200;300&display=swap');
 
         :root {
-            /* --- Golden Hour Sunset Palette --- */
-            --sky-top: #fec89a;         /* Soft Apricot */
-            --sky-bottom: #fde4cf;      /* Peach Puff */
-            --hill-color: #582f0e;      /* Warm Umber */
-            --bunny-color: #faf3e0;     /* Linen White */
-            --inner-ear-color: #fbc4ab; /* Light Salmon */
-            --text-color: #4e342e;      /* Dark Brown */
+            --sky-top: #d8d9ff;
+            --sky-bottom: #f2e7f9;
+            --hill-color: #7d84b2;
+            --bunny-color: #f7f7f7;
+            --inner-ear-color: #ead6e2;
+            --text-color: #4a4e69;
             --heading-font: 'Playfair Display', serif;
             --body-font: 'Poppins', sans-serif;
         }
@@ -84,7 +83,7 @@
             left: -30%;
             bottom: -10%;
             transform: scale(1.1);
-            background: #7a4b2e; /* Lighter hill in front */
+            background: #9fa8da; /* Lighter hill in front */
         }
         
         .hill-2 {
@@ -161,11 +160,6 @@
         .bunny .eye--left {
             left: 20px;
         }
-        
-        .bunny .eye--right {
-            right: 20px;
-        }
-
 
         /* --- Animations --- */
         @keyframes peekaboo {
@@ -176,7 +170,7 @@
                 transform: translateY(0);
             }
             70%, 90% {
-                transform: translateY(20px);
+                 transform: translateY(20px);
             }
             80% {
                 transform: translateY(-5px);
@@ -194,14 +188,13 @@
 
     <div class="content-container">
         <h1>A Quiet Meadow</h1>
-        <p>Where stillness speaks and simple wonders bloom under a golden sky.</p>
+        <p>Where stillness speaks and simple wonders bloom under a soft sky.</p>
     </div>
 
     <div class="scene">
         <div class="bunny">
             <div class="head">
                 <div class="eye eye--left"></div>
-                <div class="eye eye--right"></div>
             </div>
             <div class="ear ear--left"></div>
             <div class="ear ear--right"></div>

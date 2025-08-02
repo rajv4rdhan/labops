@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: bunny-page
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bunny-page
+  template:
+    metadata:
+      labels:
+        app: bunny-page
+    spec:
+      containers:
+      - name: bunny-page
+        image: rajv4rdhan/labops-bunny
+        ports:
+        - containerPort: 8080
