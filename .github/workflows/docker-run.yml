@@ -1,0 +1,15 @@
+name: Test EPT
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-on-arm:
+    runs-on: ubuntu-22.04-arm64
+    
+    steps:
+      - name: Pull container
+        run: docker pull rajv4rdhan/labops-bunny:x86
+
+      - name: Run container
+        run: docker run rajv4rdhan/labops-bunny:x86
