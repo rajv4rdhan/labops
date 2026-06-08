@@ -1,17 +1,7 @@
 package main
 
-import (
-	"log"
-	"net/http"
-)
+import "fmt"
 
 func main() {
-	fs := http.FileServer(http.Dir("./"))
-	http.Handle("/", fs)
-
-	log.Println("Listening on :8080...")
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+	fmt.Println("Devops ETP")
 }
