@@ -9,7 +9,7 @@ jobs:
     
     steps:
       - name: Pull container
-        run: docker pull rajv4rdhan/labops-bunny:x86
+        run: docker pull rajv4rdhan/labops-bunny:x86-1
 
       - name: Run container
-        run: docker run rajv4rdhan/labops-bunny:x86
+        run: docker run rajv4rdhan/labops-bunny:x86-1
