@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bunny}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bunny}
+      POSTGRES_DB: ${POSTGRES_DB:-bunnies}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bunny} -d ${POSTGRES_DB:-bunnies}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  bunny-api:
+    build: ./app/bunny-api
+    environment:
+      PORT: "8080"
+      DATABASE_URL: postgres://${POSTGRES_USER:-bunny}:${POSTGRES_PASSWORD:-bunny}@postgres:5432/${POSTGRES_DB:-bunnies}?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8081:8080"
+
+  bunny-page:
+    build: ./app/BunnyPage
+    environment:
+      PORT: "8080"
+      API_URL: http://bunny-api:8080
+    depends_on:
+      - bunny-api
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
