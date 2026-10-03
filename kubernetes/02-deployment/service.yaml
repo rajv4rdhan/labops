@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bunny-page
+  namespace: labops
+spec:
+  type: ClusterIP
+  selector:
+    app: bunny-page
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

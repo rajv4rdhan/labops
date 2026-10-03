@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bunny-page
+  namespace: labops
+  labels:
+    app: bunny-page
+spec:
+  containers:
+    - name: bunny-page
+      image: ghcr.io/your-org/labops-bunny:latest
+      ports:
+        - containerPort: 8080
+      env:
+        - name: PORT
+          value: "8080"

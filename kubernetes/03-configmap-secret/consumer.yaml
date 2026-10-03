@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-demo
+  namespace: labops
+spec:
+  restartPolicy: Never
+  containers:
+    - name: demo
+      image: busybox:1.36
+      command:
+        - sh
+        - -c
+        - "echo PORT=$PORT; echo APP_ENV=$APP_ENV; echo DB_USER=$POSTGRES_USER; echo DATABASE_URL=$DATABASE_URL; sleep 3600"
+      envFrom:
+        - configMapRef:
+            name: bunny-config
+        - secretRef:
+            name: bunny-db

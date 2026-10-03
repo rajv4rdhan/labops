@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bunny-api
+  namespace: labops
+  labels:
+    app: bunny-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bunny-api
+  template:
+    metadata:
+      labels:
+        app: bunny-api
+    spec:
+      containers:
+        - name: bunny-api
+          image: ghcr.io/your-org/labops-bunny-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bunny-config
+                  key: PORT
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: bunny-db
+                  key: DATABASE_URL
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi

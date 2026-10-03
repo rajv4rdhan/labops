@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bunny-page
+  namespace: labops
+  labels:
+    app: bunny-page
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bunny-page
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: bunny-page
+    spec:
+      containers:
+        - name: bunny-page
+          image: ghcr.io/your-org/labops-bunny:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 64Mi

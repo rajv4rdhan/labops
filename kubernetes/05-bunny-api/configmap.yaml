@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bunny-config
+  namespace: labops
+data:
+  PORT: "8080"
+  APP_ENV: "lab"

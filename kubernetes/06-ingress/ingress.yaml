@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bunny
+  namespace: labops
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: lab.bunny.local
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: bunny-api
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bunny-page
+                port:
+                  number: 80
