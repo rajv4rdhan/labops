@@ -61,19 +61,26 @@ Open your browser and navigate to `http://localhost:8080` to see the bunny page.
 
 ```text
 BunnyPage/
-├── main.go          # Go web server source code
-├── index.html       # Animated bunny webpage
+├── main.go          # Go static file server (+ optional /api reverse proxy)
+├── index.html       # Animated bunny webpage, fetches /api/bunnies
 ├── Dockerfile       # Multi-stage Docker build
-├── Readme.md        # This file
-└── server/          # Directory for built binary (created during build)
+└── Readme.md        # This file
 ```
 
 ## 🔧 How It Works
 
-1. **Go Server**: The `main.go` file creates a simple HTTP file server using Go's built-in `net/http` package
-2. **Static Files**: Serves the `index.html` file and any other static assets
-3. **Docker**: Uses a `scratch` base image for minimal container size
-4. **Port**: Listens on port 8080
+1. **Go Server**: The `main.go` file serves static files with Go's built-in `net/http` package
+2. **API Proxy**: If `API_URL` is set, requests to `/api/` are reverse-proxied to that backend (used for local docker-compose). In Kubernetes, the Ingress routes `/api` directly to `bunny-api`, so `API_URL` can be left unset.
+3. **Static Files**: Serves the `index.html` file and any other static assets
+4. **Docker**: Uses a multi-stage build with a `scratch` runtime image
+5. **Port**: Listens on port `8080` (override with `PORT`)
+
+## 🔌 Environment
+
+| Env       | Default | Description                                      |
+| --------- | ------- | ------------------------------------------------ |
+| `PORT`    | `8080`  | HTTP listen port                                 |
+| `API_URL` | —       | Optional backend base URL for the `/api/` proxy  |
 
 ## 🎨 Features
 

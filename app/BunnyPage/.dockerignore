@@ -1,24 +1,19 @@
 # Exclude old/backup versions of index.html
 index.v1.0.0.html
+index.v*
 
 # Exclude development files
 *.md
 README.md
 Readme.md
 
-# Exclude source code (only need compiled binary)
-main.go
-go.mod
-go.sum
-
 # Exclude git files
 .git
 .gitignore
 
-# Exclude build artifacts that aren't needed
+# Exclude build artifacts
 .DS_Store
 *.log
 *.tmp
-
-# Exclude any other version files
-index.v*
+server
+*.exe
