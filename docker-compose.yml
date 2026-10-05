@@ -30,9 +30,6 @@ services:
     build: ./app/BunnyPage
     environment:
       PORT: "8080"
-      API_URL: http://bunny-api:8080
-    depends_on:
-      - bunny-api
     ports:
       - "8080:8080"
 

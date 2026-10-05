@@ -4,104 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Quiet Meadow</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐰</text></svg>">
     <style>
-        /* --- Core Styles & Typography --- */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@200;300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap');
 
         :root {
-            /* --- Golden Hour Sunset Palette --- */
-            --sky-top: #fec89a;         /* Soft Apricot */
-            --sky-bottom: #fde4cf;      /* Peach Puff */
-            --hill-color: #582f0e;      /* Warm Umber */
-            --bunny-color: #faf3e0;     /* Linen White */
-            --inner-ear-color: #fbc4ab; /* Light Salmon */
-            --text-color: #4e342e;      /* Dark Brown */
-            --heading-font: 'Playfair Display', serif;
-            --body-font: 'Poppins', sans-serif;
+            --sky-top: #cdeaff;
+            --sky-bottom: #ffd8e8;
+            --hill-back: #9fdc86;
+            --hill-front: #6fc257;
+            --bunny: #fffaf3;
+            --inner-ear: #ffc2d4;
+            --blush: #ffb3c6;
+            --text: #4a3728;
+            --card: rgba(255, 255, 255, 0.72);
         }
+
+        * { box-sizing: border-box; }
 
         html, body {
             height: 100%;
             margin: 0;
-            padding: 0;
             overflow: hidden;
         }
 
         body {
             background: linear-gradient(to bottom, var(--sky-top), var(--sky-bottom));
-            font-family: var(--body-font);
-            color: var(--text-color);
+            font-family: 'Fredoka', system-ui, sans-serif;
+            color: var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
         }
 
-        /* --- Content & Layout --- */
-        .content-container {
-            text-align: left;
-            max-width: 400px;
-            padding: 2rem;
-            z-index: 10;
+        /* --- Floating clouds --- */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            border-radius: 100px;
+            opacity: 0.85;
+            filter: blur(1px);
+            animation: drift linear infinite;
+        }
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+        }
+        .cloud--1 { top: 14%; left: -30%; width: 120px; height: 40px; animation-duration: 38s; }
+        .cloud--2 { top: 30%; left: -30%; width: 90px; height: 32px; animation-duration: 52s; animation-delay: -12s; }
+        .cloud--3 { top: 8%; left: -30%; width: 150px; height: 46px; animation-duration: 64s; animation-delay: -30s; }
+
+        @keyframes drift {
+            from { transform: translateX(0); }
+            to   { transform: translateX(140vw); }
+        }
+
+        /* --- Content --- */
+        .card {
             position: relative;
+            z-index: 10;
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem 2.75rem;
+            border-radius: 28px;
+            box-shadow: 0 18px 45px rgba(120, 80, 120, 0.18);
+            max-width: 440px;
+            margin: 1.5rem;
+            animation: pop 0.8s cubic-bezier(.2,.9,.3,1.4) both;
+        }
+
+        @keyframes pop {
+            from { opacity: 0; transform: translateY(24px) scale(.94); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         h1 {
-            font-family: var(--heading-font);
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
-            font-weight: 500;
-            margin: 0 0 1rem 0;
-            line-height: 1.2;
+            font-size: clamp(2rem, 7vw, 2.9rem);
+            font-weight: 600;
+            margin: 0 0 0.5rem;
+            letter-spacing: -0.5px;
         }
 
         p {
-            font-size: clamp(1rem, 2.5vw, 1.1rem);
-            line-height: 1.7;
+            font-size: clamp(1rem, 3vw, 1.1rem);
+            line-height: 1.6;
+            font-weight: 400;
             margin: 0;
-            font-weight: 300;
+            opacity: 0.85;
         }
 
-        /* --- Scene Elements --- */
+        .hearts {
+            margin-top: 1.25rem;
+            font-size: 1.4rem;
+            letter-spacing: 0.4rem;
+        }
+        .hearts span {
+            display: inline-block;
+            animation: bob 1.8s ease-in-out infinite;
+        }
+        .hearts span:nth-child(2) { animation-delay: .3s; }
+        .hearts span:nth-child(3) { animation-delay: .6s; }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+
+        /* --- Meadow scene --- */
         .scene {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
+            inset: 0;
+            overflow: hidden;
             z-index: 1;
+            pointer-events: none;
         }
 
         .hill {
             position: absolute;
             bottom: 0;
-            width: 150%;
-            height: 100%;
-            background: var(--hill-color);
             border-radius: 50% 50% 0 0;
-            opacity: 0.8;
+            background: var(--hill-back);
         }
-
-        .hill-1 {
+        .hill--back {
+            width: 160%;
+            height: 42%;
             left: -30%;
-            bottom: -10%;
-            transform: scale(1.1);
-            background: #7a4b2e; /* Lighter hill in front */
+            bottom: -8%;
+            opacity: 0.85;
         }
-        
-        .hill-2 {
-            right: -25%;
-            bottom: -20%;
-            opacity: 0.9;
+        .hill--front {
+            width: 170%;
+            height: 34%;
+            right: -35%;
+            bottom: -10%;
+            background: var(--hill-front);
         }
 
-        /* --- CSS Bunny Art --- */
+        /* --- CSS bunny --- */
         .bunny {
             position: absolute;
-            bottom: 5vh;
-            right: 15vw;
-            width: 100px;
-            height: 100px;
+            bottom: 4vh;
+            right: 12vw;
+            width: 120px;
+            height: 130px;
             z-index: 5;
-            animation: peekaboo 10s ease-in-out infinite;
+            animation: hop 3.2s ease-in-out infinite;
+        }
+
+        @keyframes hop {
+            0%, 100% { transform: translateY(6px); }
+            50%      { transform: translateY(-4px); }
+        }
+
+        .bunny .ear {
+            position: absolute;
+            top: 0;
+            width: 26px;
+            height: 62px;
+            background: var(--bunny);
+            border-radius: 14px 14px 6px 6px;
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05);
+        }
+        .bunny .ear::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 8px;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 42px;
+            background: var(--inner-ear);
+            border-radius: 8px;
+        }
+        .bunny .ear--left  { left: 22px; transform: rotate(-10deg); transform-origin: bottom center; }
+        .bunny .ear--right { right: 22px; transform: rotate(10deg); transform-origin: bottom center; animation: twitch 3.2s ease-in-out infinite; }
+
+        @keyframes twitch {
+            0%, 70%, 100% { transform: rotate(10deg); }
+            78%           { transform: rotate(2deg); }
+            86%           { transform: rotate(12deg); }
         }
 
         .bunny .head {
@@ -109,177 +193,88 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 70px;
-            height: 60px;
-            background: var(--bunny-color);
-            border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
-            box-shadow: inset -3px -5px 10px rgba(0,0,0,0.04);
-        }
-
-        .bunny .ear {
-            position: absolute;
-            bottom: 40px;
-            width: 20px;
-            height: 55px;
-            background: var(--bunny-color);
-            border-radius: 10px 10px 0 0;
-        }
-        
-        .bunny .ear::after {
-            content: '';
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 10px;
-            height: 35px;
-            background: var(--inner-ear-color);
-            border-radius: 5px 5px 0 0;
-        }
-
-        .bunny .ear--left {
-            left: 10px;
-            transform: rotate(-15deg);
-        }
-
-        .bunny .ear--right {
-            right: 10px;
-            transform: rotate(15deg);
-            animation: earTwitch 10s ease-in-out infinite;
-            animation-delay: -5s; /* Stagger animations */
+            width: 88px;
+            height: 78px;
+            background: var(--bunny);
+            border-radius: 50% 50% 46% 46% / 58% 58% 42% 42%;
+            box-shadow: inset -4px -6px 10px rgba(0,0,0,0.05);
         }
 
         .bunny .eye {
             position: absolute;
             top: 30px;
-            width: 5px;
-            height: 5px;
-            background: var(--text-color);
+            width: 9px;
+            height: 11px;
+            background: var(--text);
+            border-radius: 50%;
+            animation: blink 4.5s infinite;
+        }
+        .bunny .eye--left  { left: 22px; }
+        .bunny .eye--right { right: 22px; }
+
+        @keyframes blink {
+            0%, 92%, 100% { transform: scaleY(1); }
+            95%           { transform: scaleY(0.1); }
+        }
+
+        .bunny .cheek {
+            position: absolute;
+            top: 46px;
+            width: 14px;
+            height: 9px;
+            background: var(--blush);
+            border-radius: 50%;
+            opacity: 0.75;
+        }
+        .bunny .cheek--left  { left: 12px; }
+        .bunny .cheek--right { right: 12px; }
+
+        .bunny .nose {
+            position: absolute;
+            top: 44px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 6px;
+            background: var(--blush);
             border-radius: 50%;
         }
 
-        .bunny .eye--left {
-            left: 20px;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; }
         }
-        
-        .bunny .eye--right {
-            right: 20px;
-        }
-
-
-        /* --- Animations --- */
-        @keyframes peekaboo {
-            0%, 100% {
-                transform: translateY(20px);
-            }
-            50% {
-                transform: translateY(0);
-            }
-            70%, 90% {
-                transform: translateY(20px);
-            }
-            80% {
-                transform: translateY(-5px);
-            }
-        }
-
-        @keyframes earTwitch {
-            0%, 40%, 60%, 100% { transform: rotate(15deg); }
-            50% { transform: rotate(5deg); }
-        }
-
-        /* --- API Panel --- */
-        .api-panel {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            max-width: 280px;
-            padding: 1.25rem 1.5rem;
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(88, 47, 14, 0.12);
-            z-index: 20;
-        }
-
-        .api-panel h2 {
-            font-family: var(--heading-font);
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin: 0 0 0.75rem 0;
-        }
-
-        .api-panel ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            font-size: 0.95rem;
-            line-height: 1.9;
-        }
-
-        .api-panel #api-status {
-            margin: 0.75rem 0 0 0;
-            font-size: 0.75rem;
-            opacity: 0.7;
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="content-container">
-        <h1>A Quiet Meadow</h1>
-        <p>Where stillness speaks and simple wonders bloom under a golden sky.</p>
-    </div>
-
-    <aside class="api-panel">
-        <h2>Meadow Residents</h2>
-        <ul id="bunny-list"><li>Loading…</li></ul>
-        <p id="api-status"></p>
-    </aside>
-
     <div class="scene">
+        <div class="cloud cloud--1"></div>
+        <div class="cloud cloud--2"></div>
+        <div class="cloud cloud--3"></div>
+
         <div class="bunny">
+            <div class="ear ear--left"></div>
+            <div class="ear ear--right"></div>
             <div class="head">
                 <div class="eye eye--left"></div>
                 <div class="eye eye--right"></div>
+                <div class="cheek cheek--left"></div>
+                <div class="cheek cheek--right"></div>
+                <div class="nose"></div>
             </div>
-            <div class="ear ear--left"></div>
-            <div class="ear ear--right"></div>
         </div>
-        <div class="hill hill-1"></div>
-        <div class="hill hill-2"></div>
+
+        <div class="hill hill--back"></div>
+        <div class="hill hill--front"></div>
     </div>
 
-    <script>
-        const list = document.getElementById('bunny-list');
-        const status = document.getElementById('api-status');
-
-        fetch('/api/bunnies')
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`HTTP ${res.status}`);
-                }
-                return res.json();
-            })
-            .then((bunnies) => {
-                list.innerHTML = '';
-                if (!bunnies.length) {
-                    list.innerHTML = '<li>The meadow is empty.</li>';
-                    return;
-                }
-                for (const bunny of bunnies) {
-                    const item = document.createElement('li');
-                    item.textContent = `${bunny.name} · ${bunny.color}`;
-                    list.appendChild(item);
-                }
-                status.textContent = `${bunnies.length} resident(s) from bunny-api`;
-            })
-            .catch((err) => {
-                list.innerHTML = '<li>Unable to reach bunny-api.</li>';
-                status.textContent = err.message;
-            });
-    </script>
+    <main class="card">
+        <h1>A Quiet Meadow</h1>
+        <p>Where stillness speaks and simple wonders bloom under a golden sky.</p>
+        <div class="hearts" aria-hidden="true">
+            <span>🌸</span><span>🐰</span><span>🌿</span>
+        </div>
+    </main>
 
 </body>
 </html>
