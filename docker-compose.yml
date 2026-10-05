@@ -49,14 +49,24 @@ services:
       timeout: 5s
       retries: 10
 
-  squirrel:
-    build: ./app/squirrel
+  squirrel-backend:
+    build: ./app/squirrel/backend
     environment:
       PORT: "8080"
       DATABASE_URL: postgres://${SQUIRREL_DB_USER:-squirrel}:${SQUIRREL_DB_PASSWORD:-squirrel}@squirrel-db:5432/${SQUIRREL_DB_NAME:-squirrel}?sslmode=disable
     depends_on:
       squirrel-db:
         condition: service_healthy
+    ports:
+      - "8083:8080"
+
+  squirrel-frontend:
+    build: ./app/squirrel/frontend
+    environment:
+      PORT: "8080"
+      API_URL: http://squirrel-backend:8080
+    depends_on:
+      - squirrel-backend
     ports:
       - "8082:8080"
 
