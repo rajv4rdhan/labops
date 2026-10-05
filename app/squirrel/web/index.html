@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Squirrel · notes</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">🐿️</span> Squirrel</div>
+    <p class="tagline">stash your notes</p>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <button id="new-note" class="btn btn-primary new-btn">+ New note</button>
+      <ul id="note-list" class="note-list" aria-label="Notes"></ul>
+    </aside>
+
+    <section class="editor" id="editor">
+      <div class="editor-head">
+        <input id="title" class="title-input" type="text" placeholder="Untitled note" autocomplete="off" />
+        <div class="actions">
+          <span id="status" class="status" role="status"></span>
+          <button id="delete" class="btn btn-ghost" hidden>Delete</button>
+          <button id="save" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+      <textarea id="body" class="body-input" placeholder="Start typing… the squirrel will remember it."></textarea>
+    </section>
+
+    <section class="empty" id="empty">
+      <div class="empty-art">🌰</div>
+      <h2>Nothing selected</h2>
+      <p>Pick a note on the left, or stash a new one.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
