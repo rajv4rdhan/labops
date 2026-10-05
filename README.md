@@ -4,27 +4,33 @@ A hands-on DevOps lab: a small multi-tier application used to practice
 containers, Kubernetes, CI/CD, and beyond.
 
 ```
-Browser ──Ingress──┬── /       ──> bunny-page (frontend, Go static server)
-                   └── /api/*  ──> bunny-api  (backend, Go REST) ──> postgres
+Browser ──┬── bunny-page (Go static server, cute meadow page)
+          │
+          └── Squirrel ──> postgres      (Go REST API + embedded UI)
 ```
+
+The `bunny-api` REST service lives in `app/bunny-api` and is used by the
+Kubernetes labs (05+); it is not needed to run the pages.
 
 ## Components
 
 | Path               | What it is                                          |
 | ------------------ | --------------------------------------------------- |
-| `app/BunnyPage`    | Frontend: Go static server + animated HTML + `/api` |
-| `app/bunny-api`    | Backend: Go REST API backed by PostgreSQL           |
+| `app/BunnyPage`    | Static: Go file server for a cute animated page     |
+| `app/squirrel`     | Squirrel: Go note app — REST API + embedded UI + DB |
+| `app/bunny-api`    | Backend: Go REST API backed by PostgreSQL (labs)    |
 | `kubernetes/`      | Labs 01–08, self-contained with their own READMEs   |
 | `.github/workflows`| CI: image build/push and manifest validation        |
-| `docker-compose.yml`| Local dev stack (frontend + api + postgres)        |
+| `docker-compose.yml`| Local dev stack (pages + squirrel + postgres)      |
 
 ## Local development
 
 ```bash
 cp .env.example .env
 docker compose up --build
-# frontend  -> http://localhost:8080
-# api       -> http://localhost:8081/api/bunnies
+# bunny page -> http://localhost:8080
+# bunny api  -> http://localhost:8081/api/bunnies
+# Squirrel   -> http://localhost:8082
 ```
 
 ## Build and push images
@@ -34,6 +40,7 @@ Images are built and pushed to GitHub Container Registry by
 
 - `ghcr.io/<owner>/<repo>/labops-bunny`
 - `ghcr.io/<owner>/<repo>/labops-bunny-api`
+- `ghcr.io/<owner>/<repo>/labops-squirrel`
 
 Update the `ghcr.io/your-org/...` placeholders in `kubernetes/**` to the images
 pushed to your registry.

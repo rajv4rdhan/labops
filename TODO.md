@@ -5,9 +5,10 @@ CI/CD, and (later) gRPC, observability, and GitOps.
 
 ## Done
 
-- [x] BunnyPage frontend — Go static server, `scratch` image
+- [x] BunnyPage frontend — simplified to a static cute page, `scratch` image
+- [x] Squirrel note app — Go REST API + embedded UI + PostgreSQL, no login
 - [x] bunny-api backend — Go REST API + PostgreSQL
-- [x] Local dev with docker-compose (frontend + api + postgres)
+- [x] Local dev with docker-compose (pages + squirrel + postgres)
 - [x] Kubernetes labs 01–08 (pod/service, deployment, configmap/secret,
       postgres, api, ingress, probes, HPA)
 - [x] CI — build & push images, validate Kubernetes manifests
