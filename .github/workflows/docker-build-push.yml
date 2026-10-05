@@ -25,6 +25,8 @@ jobs:
             context: app/BunnyPage
           - name: labops-bunny-api
             context: app/bunny-api
+          - name: labops-squirrel
+            context: app/squirrel
     steps:
       - name: Checkout
         uses: actions/checkout@v4

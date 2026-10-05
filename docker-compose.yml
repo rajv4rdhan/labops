@@ -33,5 +33,33 @@ services:
     ports:
       - "8080:8080"
 
+  squirrel-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${SQUIRREL_DB_USER:-squirrel}
+      POSTGRES_PASSWORD: ${SQUIRREL_DB_PASSWORD:-squirrel}
+      POSTGRES_DB: ${SQUIRREL_DB_NAME:-squirrel}
+    ports:
+      - "5433:5432"
+    volumes:
+      - squirreldata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SQUIRREL_DB_USER:-squirrel} -d ${SQUIRREL_DB_NAME:-squirrel}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  squirrel:
+    build: ./app/squirrel
+    environment:
+      PORT: "8080"
+      DATABASE_URL: postgres://${SQUIRREL_DB_USER:-squirrel}:${SQUIRREL_DB_PASSWORD:-squirrel}@squirrel-db:5432/${SQUIRREL_DB_NAME:-squirrel}?sslmode=disable
+    depends_on:
+      squirrel-db:
+        condition: service_healthy
+    ports:
+      - "8082:8080"
+
 volumes:
   pgdata:
+  squirreldata:
