@@ -1,2 +1,0 @@
-- build a simple websocket server from scratch.
-- which will show collie's live location webpage(html css js).
