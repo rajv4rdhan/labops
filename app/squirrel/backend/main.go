@@ -34,7 +34,7 @@ func main() {
 	}
 
 	go func() {
-		log.Printf("squirrel listening on :%s", port)
+		log.Printf("squirrel-backend listening on :%s", port)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalf("server: %v", err)
 		}

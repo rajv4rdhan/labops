@@ -1,19 +1,14 @@
 package main
 
 import (
-	"embed"
 	"encoding/json"
 	"errors"
-	"io/fs"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 )
-
-//go:embed web
-var webFS embed.FS
 
 type noteRequest struct {
 	Title string `json:"title"`
@@ -26,14 +21,19 @@ func newRouter(store *Store) http.Handler {
 	mux.HandleFunc("/ready", handleReady(store))
 	mux.HandleFunc("/api/notes", handleNotes(store))
 	mux.HandleFunc("/api/notes/", handleNote(store))
-
-	web, err := fs.Sub(webFS, "web")
-	if err != nil {
-		log.Fatalf("web assets: %v", err)
-	}
-	mux.Handle("/", http.FileServer(http.FS(web)))
-
+	mux.HandleFunc("/", handleRoot)
 	return withLogging(mux)
+}
+
+func handleRoot(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		writeError(w, http.StatusNotFound, "not found")
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]string{
+		"service": "squirrel-backend",
+		"notes":   "/api/notes",
+	})
 }
 
 func handleHealth(w http.ResponseWriter, r *http.Request) {
